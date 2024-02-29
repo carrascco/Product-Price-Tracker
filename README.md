@@ -41,4 +41,5 @@ This project is configured to run periodically using GitHub Actions. It runs the
 - `cd.yaml`: GitHub Actions workflow configuration file.
 - `precio`: File to store the previously tracked price.
 - `README.md`: Documentation file.
+- `requirements.txt`: Dependencies required file. (used for `pip install -r requirements.txt`)
 
