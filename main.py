@@ -37,7 +37,7 @@ def obtener_precio1(url):
         precio = precio_element.text.strip()
         return precio
     else:
-        print('No se pudo encontrar el precio.')
+        print('No se pudo encontrar el precio. 1')
         exit(1)
     
 def obtener_precio2(url):
@@ -45,8 +45,7 @@ def obtener_precio2(url):
     soup = BeautifulSoup(response.text, 'html.parser')
     
     
-    div_100ml = soup.find('div', string='100 ML')
-    
+    div_100ml = soup.find('div', string='100 ml')
     if div_100ml:
         
         precio_element = div_100ml.find_next('span', {'class': 'product-price__extended-content-units'})
@@ -55,7 +54,7 @@ def obtener_precio2(url):
             precio = precio_element.text.strip()
             precio = precio.split('/')[0].strip()
             return precio
-    print('No se pudo encontrar el precio.')
+    print('No se pudo encontrar el precio. 2')
     exit(1)
 
 def obtener_precio3(url):
@@ -94,7 +93,7 @@ def obtener_precio3(url):
         precio = precio_element.text.strip()
         return precio
     except:
-        print("No se pudo encontrar el precio.") 
+        print("No se pudo encontrar el precio. 3") 
         exit(1)
 
 def obtener_precio4(url):
@@ -113,7 +112,7 @@ def obtener_precio4(url):
         # Imprimir el precio
         return precio
     except:
-        print("No se pudo encontrar el precio.")
+        print("No se pudo encontrar el precio. 4")
         exit(1)
 
 
