@@ -58,8 +58,15 @@ def obtener_precio2(url):
     exit(1)
 
 def obtener_precio3(url):
+    options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3")
+
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("permissions.default.image", 2) # Para desactivar imágenes
+    options.profile = profile
 
     driver = webdriver.Firefox(options=options) 
+
+
     driver.get(url)
     try:
         tamano_element = WebDriverWait(driver, 20).until(
