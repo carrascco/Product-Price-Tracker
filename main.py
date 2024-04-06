@@ -57,45 +57,6 @@ def obtener_precio2(url):
     print('No se pudo encontrar el precio. 2')
     exit(1)
 
-# def obtener_precio3(url):
-   
-#     driver = webdriver.Edge(options=options) 
-#     driver.get(url)
-#     try:
-#         tamano_element = WebDriverWait(driver, 20).until(
-#             EC.visibility_of_element_located((By.XPATH, '//div[@class="dropdown-input"]'))   
-#         )
-#         time.sleep(7.5)
-#         tamano_element.click()
-#     except:
-#         print("No se pudo seleccionar el tamaño.")
-        
-#         driver.quit()
-#         exit(1)
-    
-
-#     try:
-#         parent_div = WebDriverWait(driver, 10).until(
-#         EC.presence_of_element_located((By.ID, 'size_option_001013512219281   :eci'))
-#     )
-
-#         child_div = WebDriverWait(parent_div, 10).until(
-#             EC.element_to_be_clickable((By.XPATH, './/div[@role="button"]'))
-#         )
-#         time.sleep(5)
-#         child_div.click()
-#     except:
-#         print("No se pudo hacer clic en el elemento hijo del div padre.")
-#         exit(1)
-#     try:
-#         precio_element = WebDriverWait(driver, 10).until(
-#             EC.visibility_of_element_located((By.CLASS_NAME, 'price-unit--normal')))
-#         precio = precio_element.text.strip()
-#         return precio
-#     except:
-#         print("No se pudo encontrar el precio. 3") 
-#         exit(1)
-# from playwright.sync_api import sync_playwright
 from playwright.async_api import async_playwright
 import asyncio
 
@@ -141,93 +102,23 @@ async def obtener_precio3(url):
         return valor_span
 
 
-def obtener_precio32(url):
-    with sync_playwright() as p:
-        # Inicializa el navegador Edge en modo headless
-        browser = p.firefox.launch()
-        page = browser.new_page()
 
-        # Abre la URL
-        page.goto(url, wait_until='load')
-
-        # try:
-        #     # Espera y hace clic en el elemento desplegable de tamaño
-        #     page.wait_for_selector('div.dropdown-input', timeout=20000)  # Espera hasta 20 segundos
-        #     page.click('div.dropdown-input')
-
-        # except Exception as e:
-        #     print("No se pudo seleccionar el tamaño.", str(e))
-        #     browser.close()
-        #     exit(1)
-
-        # try:
-        #     # Espera a que el elemento hijo dentro del div padre sea clickeable y hace clic
-        #     # Asegúrate de adaptar el selector al correcto, ya que Playwright maneja los selectores un poco diferente
-        #     page.wait_for_selector('#size_option_001013512219281\\:eci', timeout=15000)
-        #     page.click('#size_option_001013512219281\\:eci')
-
-        # except Exception as e:
-        #     print("No se pudo hacer clic en el elemento hijo del div padre.", str(e))
-        #     browser.close()
-        #     exit(1)
-        valor_span = page.evaluate('''
-        (() => {
-            var dropdown = document.querySelector('.dropdown-input'); 
-            if (dropdown) {
-                dropdown.click();
-            }
-
-            // Espera un poco después del clic para que el DOM se actualice
-            // NOTA: Esto no funcionará como se espera, ya que `setTimeout` no detiene la ejecución en `page.evaluate`
-            // Se muestra aquí solo como un concepto; necesitarías manejar la espera de manera diferente.
-            setTimeout(() => {}, 1000); // Esto NO funcionará como se espera en page.evaluate()
-
-            var sizeOption = document.getElementById('size_option_001013512219281   :eci'); 
-            if (sizeOption) {
-                var child = sizeOption.querySelector('.size-element');
-                if (child) {
-                    child.click(); 
-                }
-            }
-
-            var spanElement = document.querySelector('.product-detail-price'); 
-            return spanElement ? spanElement.textContent : ''; // Devuelve el texto de spanElement o una cadena vacía si no se encuentra
-        })();
-    ''')
-        
-
-        print(valor_span)
-
+async def obtener_precio4(url):
+    async with async_playwright() as p:
+        browser = await p.firefox.launch()
+        page = await browser.new_page()
+        await page.goto(url)
+       
         try:
-            # Espera a que el elemento del precio sea visible y obtiene su texto
-            precio_element = page.wait_for_selector('.price-unit--normal', timeout=10000)
-            precio = precio_element.text_content().strip()
-            browser.close()
-            return precio
+            # Espera hasta que el elemento con el precio sea visible y obtén su texto
+            precio_element = await page.wait_for_selector('.price-sales-standard', state='visible', timeout=10000)
+            precio = await precio_element.text_content()
 
+            # Limpiar y retornar el precio
+            return precio.strip()
         except Exception as e:
-            print("No se pudo encontrar el precio.", str(e))
-            browser.close()
-            exit(1)
-
-def obtener_precio4(url):
-
-    driver = webdriver.Firefox(options=options)  # Necesitarás descargar el WebDriver correspondiente a tu navegador
-    driver.get(url)
-   
-    try:
-        precio_element = WebDriverWait(driver, 10).until(
-            EC.visibility_of_element_located((By.CLASS_NAME, 'price-sales-standard'))
-        )
-
-        # Obtener el precio del elemento
-        precio = precio_element.text.strip()
-
-        # Imprimir el precio
-        return precio
-    except:
-        print("No se pudo encontrar el precio. 4")
-        exit(1)
+            print(f"No se pudo encontrar el precio. 4: {e}")
+            return None
 
 
 def lowestPrice(price1,price2,price3,price4):
@@ -298,7 +189,7 @@ precio3=asyncio.run(obtener_precio3(url3))
 numero = precio3.split()[0]  
 precio3 = float(numero.replace(',', '.')) 
 
-precio4=obtener_precio4(url4)
+precio4=asyncio.run(obtener_precio4(url4))
 numero = precio4.split()[0]  
 precio4 = float(numero.replace(',', '.'))  
 
