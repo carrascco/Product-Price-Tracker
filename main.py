@@ -65,7 +65,7 @@ def obtener_precio3(url):
         tamano_element = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, '//div[@class="dropdown-input"]'))   
         )
-        time.sleep(3.5)
+        time.sleep(7.5)
         tamano_element.click()
     except:
         print("No se pudo seleccionar el tamaño.")
@@ -82,7 +82,7 @@ def obtener_precio3(url):
         child_div = WebDriverWait(parent_div, 10).until(
             EC.element_to_be_clickable((By.XPATH, './/div[@role="button"]'))
         )
-        time.sleep(2)
+        time.sleep(5)
         child_div.click()
     except:
         print("No se pudo hacer clic en el elemento hijo del div padre.")
