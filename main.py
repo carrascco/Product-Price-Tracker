@@ -62,7 +62,7 @@ def obtener_precio3(url):
     driver = webdriver.Firefox(options=options) 
     driver.get(url)
     try:
-        tamano_element = WebDriverWait(driver, 10).until(
+        tamano_element = WebDriverWait(driver, 20).until(
             EC.visibility_of_element_located((By.XPATH, '//div[@class="dropdown-input"]'))   
         )
         time.sleep(7.5)
@@ -164,7 +164,7 @@ def enviar_correo(nuevo_precio):
 
 url1 = 'https://www.druni.es/coco-mademoiselle-chanel-eau-parfum-vaporizador'
 url2='https://www.douglas.es/es/p/1000722295?variant=103896'
-url3='https://www.elcorteingles.es/perfumeria/A18380039-chanel-coco-mademoiselle-eau-de-parfum-vaporizador/?parentCategoryId=997.4374515011&color=default'
+url3='https://www.elcorteingles.es/perfumeria/A18380039-chanel-coco-mademoiselle-eau-de-parfum-vaporizador/'
 url4='https://www.sephora.es/p/coco-mademoiselle---eau-de-parfum-vaporizador-92482.html?gad_source=1&gclid=Cj0KCQiA5rGuBhCnARIsAN11vgRn_rRsC3GfQUF-Y-XCmSPKB5YR1dVuaLx9boqL9p45g85GnIVumxMaAlM-EALw_wcB'
 
 
