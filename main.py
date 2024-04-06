@@ -64,7 +64,7 @@ def obtener_precio3(url):
     profile.set_preference("permissions.default.image", 2) # Para desactivar imágenes
     options.profile = profile
 
-    driver = webdriver.Firefox(options=options) 
+    driver = webdriver.Edge(options=options) 
 
 
     driver.get(url)
